@@ -1,0 +1,16 @@
+{
+  "name": "com.puppydragon.unody",
+  "version": "1.0.0",
+  "displayName": "uNody",
+  "description": "uNody is a node editor built on xNode with enhanced custom editor compatibility and new features like logic graphs, sub-graphs, a Blackboard, and custom variables.",
+  "author": {
+    "name": "Daeguen Park",
+    "email": "uemonwe@gmail.com",
+    "url": ""
+  },
+  "keywords": [
+    "Node",
+    "Graph"
+  ],
+  "samples": []
+}

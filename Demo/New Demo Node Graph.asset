@@ -1,0 +1,245 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2178965391773384565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464a46d7a778ae840ac66f1f43737c0d, type: 3}
+  m_Name: Sum Float
+  m_EditorClassIdentifier: PuppyDragon.uNody::PuppyDragon.uNody.Math.SumFloatNode
+  graph: {fileID: 11400000}
+  nodePosition: {x: -216, y: -120}
+  values:
+    ownerNode: {fileID: -2178965391773384565}
+    guid: be2da1b0-3e08-4cce-b51d-06689ce9c614
+    fieldName: values
+    elementName: 
+    connections:
+    - node: {fileID: 4637765419049344448}
+      guid: 2bbd029e-5284-4dc4-a630-dde597399a17
+      reroutes: []
+    - node: {fileID: 132559257842516672}
+      guid: 6fe51ca0-424b-4ee3-b055-ce6d707ad92f
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -217.9
+      y: -84.5
+      width: 16
+      height: 16
+    defaultValue: 0
+  result:
+    ownerNode: {fileID: -2178965391773384565}
+    guid: 7a8ff0f6-baeb-4522-876c-80bd460672ac
+    fieldName: result
+    elementName: 
+    connections:
+    - node: {fileID: 6709780543114190688}
+      guid: cf0324a5-a935-4c3d-bd0b-a254bbb3c543
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -98
+      y: -84.5
+      width: 16
+      height: 16
+    defaultValue: 0
+    hasFunc: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6df9f1d8c644064bb0989fb3a7d714f, type: 3}
+  m_Name: New Demo Node Graph
+  m_EditorClassIdentifier: Assembly-CSharp::PuppyDragon.uNody.Demo.DemoNodeGraph
+  blackboard: {fileID: 11400000, guid: 658e662130e188e47a62271ba626083d, type: 2}
+  panOffset: {x: 218.63591, y: -21.83834}
+  zoom: 0.66550004
+  nodes:
+  - {fileID: 4637765419049344448}
+  - {fileID: -2178965391773384565}
+  - {fileID: 6893439923326566669}
+  - {fileID: 6709780543114190688}
+  - {fileID: 132559257842516672}
+  parent: {fileID: 0}
+  children: []
+  inPoints:
+  - {fileID: 4637765419049344448}
+  outPoints:
+  - {fileID: 6709780543114190688}
+--- !u!114 &132559257842516672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd08bf1ba2c3c941831c1119ac45451, type: 3}
+  m_Name: Demo
+  m_EditorClassIdentifier: Assembly-CSharp::PuppyDragon.uNody.Demo.DemoNode
+  graph: {fileID: 11400000}
+  nodePosition: {x: -424, y: -40}
+  inputValue:
+    ownerNode: {fileID: 132559257842516672}
+    guid: d6200ffb-3f59-442e-86e7-a66e2a618b12
+    fieldName: inputValue
+    elementName: 
+    connections:
+    - node: {fileID: 6893439923326566669}
+      guid: 8f894057-58d8-4bd4-b86e-8b02adff9335
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -425.9
+      y: -4.5
+      width: 16
+      height: 16
+    defaultValue: 0
+  outputPort:
+    ownerNode: {fileID: 132559257842516672}
+    guid: 6fe51ca0-424b-4ee3-b055-ce6d707ad92f
+    fieldName: outputPort
+    elementName: 
+    connections:
+    - node: {fileID: -2178965391773384565}
+      guid: be2da1b0-3e08-4cce-b51d-06689ce9c614
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -258
+      y: -4.5
+      width: 16
+      height: 16
+    defaultValue: 0
+    hasFunc: 1
+--- !u!114 &4637765419049344448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8651a1b47f40a9c48a7e0b5753f48ce9, type: 3}
+  m_Name: inputValue
+  m_EditorClassIdentifier: PuppyDragon.uNody::PuppyDragon.uNody.InPoint.InFloatNode
+  graph: {fileID: 11400000}
+  nodePosition: {x: -376, y: -120}
+  input:
+    ownerNode: {fileID: 4637765419049344448}
+    guid: 921c3993-ef11-4a66-8be5-4c4b5c9dda93
+    fieldName: input
+    elementName: 
+    connections: []
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    defaultValue: 20
+  output:
+    ownerNode: {fileID: 4637765419049344448}
+    guid: 2bbd029e-5284-4dc4-a630-dde597399a17
+    fieldName: output
+    elementName: 
+    connections:
+    - node: {fileID: -2178965391773384565}
+      guid: be2da1b0-3e08-4cce-b51d-06689ce9c614
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -258
+      y: -84.5
+      width: 16
+      height: 16
+    defaultValue: 0
+    hasFunc: 1
+--- !u!114 &6709780543114190688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2afbbbe4191eab649ad68a113c4ae714, type: 3}
+  m_Name: outputValue
+  m_EditorClassIdentifier: PuppyDragon.uNody::PuppyDragon.uNody.OutPoint.OutFloatNode
+  graph: {fileID: 11400000}
+  nodePosition: {x: -56, y: -120}
+  input:
+    ownerNode: {fileID: 6709780543114190688}
+    guid: cf0324a5-a935-4c3d-bd0b-a254bbb3c543
+    fieldName: input
+    elementName: 
+    connections:
+    - node: {fileID: -2178965391773384565}
+      guid: 7a8ff0f6-baeb-4522-876c-80bd460672ac
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -57.9
+      y: -84.5
+      width: 16
+      height: 16
+    defaultValue: 0
+  output:
+    ownerNode: {fileID: 6709780543114190688}
+    guid: 0822b112-c2c5-499d-8548-55d53b6a3ab9
+    fieldName: output
+    elementName: 
+    connections: []
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    defaultValue: 0
+    hasFunc: 1
+--- !u!114 &6893439923326566669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cddfafe751859384182ff1b5937275fc, type: 3}
+  m_Name: Float
+  m_EditorClassIdentifier: PuppyDragon.uNody::PuppyDragon.uNody.Variable.FloatNode
+  graph: {fileID: 11400000}
+  nodePosition: {x: -584, y: -40}
+  value:
+    ownerNode: {fileID: 6893439923326566669}
+    guid: 8f894057-58d8-4bd4-b86e-8b02adff9335
+    fieldName: value
+    elementName: 
+    connections:
+    - node: {fileID: 132559257842516672}
+      guid: d6200ffb-3f59-442e-86e7-a66e2a618b12
+      reroutes: []
+    rect:
+      serializedVersion: 2
+      x: -466
+      y: -4.5
+      width: 16
+      height: 16
+    defaultValue: 20
+    hasFunc: 0

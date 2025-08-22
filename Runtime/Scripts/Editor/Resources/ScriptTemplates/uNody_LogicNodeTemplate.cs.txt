@@ -1,0 +1,20 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PuppyDragon.uNody;
+using PuppyDragon.uNody.Logic;
+
+public class #SCRIPTNAME# : LogicNode
+{
+	// Use this for Node initialization, Called from the OnEnable function.
+	protected override void Initialize()
+	{
+		#NOTRIM#
+	}
+
+	// Write the logic that the node will execute here.
+	public override void Execute()
+	{
+		#NOTRIM#
+	}
+}

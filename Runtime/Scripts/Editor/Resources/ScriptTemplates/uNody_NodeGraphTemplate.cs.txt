@@ -1,0 +1,10 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PuppyDragon.uNody;
+
+[CreateAssetMenu]
+public class #SCRIPTNAME# : NodeGraph
+{ 
+	#NOTRIM#
+}

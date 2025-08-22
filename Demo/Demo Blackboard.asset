@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6793584989130959456
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d851f15ed2a47e4dbfc34ec97f56cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuppyDragon.uNody::PuppyDragon.uNody.BlackboardString
+  key: message
+  value: uNody!
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ff420818ed38740b87bf0d92176e18, type: 3}
+  m_Name: Demo Blackboard
+  m_EditorClassIdentifier: PuppyDragon.uNody::PuppyDragon.uNody.Blackboard
+  globalVars:
+  - {fileID: -6793584989130959456}
+  localVars: []

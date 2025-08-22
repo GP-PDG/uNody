@@ -1,0 +1,11 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PuppyDragon.uNody;
+using PuppyDragon.uNody.Logic;
+
+[CreateAssetMenu]
+public class #SCRIPTNAME# : LogicGraph
+{ 
+	#NOTRIM#
+}

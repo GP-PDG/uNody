@@ -1,0 +1,13 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PuppyDragon.uNody;
+
+public class #SCRIPTNAME# : Node
+{
+	// Use this for Node initialization, Called from the OnEnable function.
+	protected override void Initialize()
+	{
+		#NOTRIM#
+	}
+}
