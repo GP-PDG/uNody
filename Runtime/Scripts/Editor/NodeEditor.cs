@@ -178,8 +178,12 @@ namespace PuppyDragon.uNodyEditor {
                 menu.AddItem(new GUIContent("Open Script"), false, () => {
                     var iterator = new SerializedObject(node).GetIterator();
                     iterator.NextVisible(true);
+#if UNITY_6000_3_OR_NEWER
+                    AssetDatabase.OpenAsset(iterator.entityIdValue, 0);
+#else
                     AssetDatabase.OpenAsset(iterator.objectReferenceInstanceIDValue, 0);
-                    });
+#endif
+                });
 
                 menu.AddItem(new GUIContent("Rename"), false, graphEditor.RenameSelectedNode);
                 

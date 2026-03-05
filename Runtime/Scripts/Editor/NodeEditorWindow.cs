@@ -96,7 +96,11 @@ namespace PuppyDragon.uNodyEditor
         [OnOpenAsset(0)]
         public static bool OnOpen(int instanceID, int line)
         {
+#if UNITY_6000_3_OR_NEWER
+            NodeGraph nodeGraph = EditorUtility.EntityIdToObject(instanceID) as NodeGraph;
+#else
             NodeGraph nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as NodeGraph;
+#endif
             if (nodeGraph != null)
             {
                 Open(nodeGraph);

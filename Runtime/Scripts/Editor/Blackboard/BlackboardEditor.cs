@@ -14,13 +14,23 @@ namespace PuppyDragon.uNodyEditor
         private ReorderableList globalVars;
         private ReorderableList localVars;
 
-        private Dictionary<SerializedObject, Dictionary<string, SerializedProperty>> cachedPropertiesByObject = new();
-        private Dictionary<Object, SerializedObject> serializedElementByObject = new();
+        private readonly Dictionary<int, SerializedObject> serializedElementById = new();
+        private readonly Dictionary<int, Dictionary<string, SerializedProperty>> cachedPropertiesById = new();
 
         private void OnEnable()
         {
             globalVars = CreateVarList(serializedObject, serializedObject.FindProperty("globalVars"));
             localVars = CreateVarList(serializedObject, serializedObject.FindProperty("localVars"));
+        }
+
+        private void OnDisable()
+        {
+            foreach (var so in serializedElementById.Values)
+            {
+                so?.Dispose();
+            }
+            serializedElementById.Clear();
+            cachedPropertiesById.Clear();
         }
 
         public override void OnInspectorGUI()
@@ -44,27 +54,42 @@ namespace PuppyDragon.uNodyEditor
             list.drawElementCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
             {
                 var element = list.serializedProperty.GetArrayElementAtIndex(index);
+                var targetObj = element.objectReferenceValue;
+
+                if (targetObj == null)
+                {
+                    rect.y += 2;
+                    rect.height = EditorGUIUtility.singleLineHeight;
+                    EditorGUI.PropertyField(rect, element, new GUIContent("Missing or Null Reference"));
+                    return;
+                }
+
+                int instanceId = targetObj.GetInstanceID();
 
                 var lineRect = rect;
-                lineRect.position = new Vector2(lineRect.position.x, lineRect.position.y + 2);
+                lineRect.y += 2;
                 lineRect.height = EditorGUIUtility.singleLineHeight;
 
-                if (!serializedElementByObject.TryGetValue(element.objectReferenceValue, out var serializedElement))
+                if (!serializedElementById.TryGetValue(instanceId, out var serializedElement) || serializedElement == null)
                 {
-                    serializedElement = new SerializedObject(element.objectReferenceValue);
-                    serializedElementByObject[element.objectReferenceValue] = serializedElement;
+                    serializedElement = new SerializedObject(targetObj);
+                    serializedElementById[instanceId] = serializedElement;
                 }
 
                 serializedElement.Update();
 
-                EditorGUI.PropertyField(lineRect, GetCachedSerializedProperty(serializedElement, "key"));
-
+                var keyProperty = GetCachedSerializedProperty(serializedElement, "key");
                 var valueProperty = GetCachedSerializedProperty(serializedElement, "value");
 
-                lineRect.position = new Vector2(lineRect.position.x, lineRect.position.y + EditorGUIUtility.singleLineHeight + 2);
-                lineRect.height = EditorGUI.GetPropertyHeight(valueProperty);
+                if (keyProperty != null)
+                    EditorGUI.PropertyField(lineRect, keyProperty);
 
-                EditorGUI.PropertyField(lineRect, valueProperty);
+                if (valueProperty != null)
+                {
+                    lineRect.y += EditorGUIUtility.singleLineHeight + 2;
+                    lineRect.height = EditorGUI.GetPropertyHeight(valueProperty);
+                    EditorGUI.PropertyField(lineRect, valueProperty);
+                }
 
                 serializedElement.ApplyModifiedProperties();
 
@@ -72,7 +97,7 @@ namespace PuppyDragon.uNodyEditor
                 {
                     DragAndDrop.PrepareStartDrag();
                     DragAndDrop.StartDrag("blackboardVar");
-                    DragAndDrop.objectReferences = new Object[] { element.objectReferenceValue };
+                    DragAndDrop.objectReferences = new Object[] { targetObj };
                 }
             };
 
@@ -80,9 +105,19 @@ namespace PuppyDragon.uNodyEditor
             {
                 var removeTarget = list.serializedProperty.GetArrayElementAtIndex(list.index);
                 var targetObject = removeTarget.objectReferenceValue;
+
                 list.serializedProperty.DeleteArrayElementAtIndex(list.index);
-                AssetDatabase.RemoveObjectFromAsset(targetObject);
-                AssetDatabase.SaveAssets();
+
+                if (targetObject != null)
+                {
+                    int id = targetObject.GetInstanceID();
+                    if (serializedElementById.TryGetValue(id, out var so)) so?.Dispose();
+                    serializedElementById.Remove(id);
+                    cachedPropertiesById.Remove(id);
+
+                    AssetDatabase.RemoveObjectFromAsset(targetObject);
+                    AssetDatabase.SaveAssets();
+                }
             };
 
             list.onAddDropdownCallback += (Rect buttonRect, ReorderableList list) =>
@@ -111,24 +146,48 @@ namespace PuppyDragon.uNodyEditor
             list.elementHeightCallback += (index) =>
             {
                 var element = list.serializedProperty.GetArrayElementAtIndex(index);
-                var serializedElement = new SerializedObject(element.objectReferenceValue);
-                return EditorGUIUtility.singleLineHeight + EditorGUI.GetPropertyHeight(serializedElement.FindProperty("value")) + 4;
+                var targetObj = element.objectReferenceValue;
+
+                if (targetObj == null)
+                    return EditorGUIUtility.singleLineHeight + 4;
+
+                int instanceId = targetObj.GetInstanceID();
+
+                if (!serializedElementById.TryGetValue(instanceId, out var serializedElement) || serializedElement == null)
+                {
+                    serializedElement = new SerializedObject(targetObj);
+                    serializedElementById[instanceId] = serializedElement;
+                }
+
+                var valueProperty = GetCachedSerializedProperty(serializedElement, "value");
+                if (valueProperty == null) return EditorGUIUtility.singleLineHeight + 4;
+
+                return EditorGUIUtility.singleLineHeight + EditorGUI.GetPropertyHeight(valueProperty) + 4;
             };
 
             return list;
         }
 
-        private SerializedProperty GetCachedSerializedProperty(SerializedObject property, string fieldName)
+        private SerializedProperty GetCachedSerializedProperty(SerializedObject serializedObj, string fieldName)
         {
-            if (!cachedPropertiesByObject.TryGetValue(property, out var cachedProperties))
+            if (serializedObj == null || serializedObj.targetObject == null)
+                return null;
+
+#if UNITY_6000_3_OR_NEWER
+            int instanceId = serializedObj.targetObject.GetInstanceID();
+#else
+            int instanceId = serializedObj.targetObject.GetEntityId();
+#endif
+
+            if (!cachedPropertiesById.TryGetValue(instanceId, out var cachedProperties))
             {
                 cachedProperties = new Dictionary<string, SerializedProperty>();
-                cachedPropertiesByObject[property] = cachedProperties;
+                cachedPropertiesById[instanceId] = cachedProperties;
             }
 
             if (!cachedProperties.TryGetValue(fieldName, out var cachedProperty))
             {
-                cachedProperty = property.FindProperty(fieldName);
+                cachedProperty = serializedObj.FindProperty(fieldName);
                 cachedProperties[fieldName] = cachedProperty;
             }
 

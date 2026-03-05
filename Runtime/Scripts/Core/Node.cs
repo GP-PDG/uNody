@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.Windows;
 
 namespace PuppyDragon.uNody
 {
@@ -61,6 +62,9 @@ namespace PuppyDragon.uNody
         [SerializeField, HideInInspector]
         private Vector2 nodePosition;
 
+        private readonly List<NodePort> inputs = new();
+        private readonly List<NodePort> outputs = new();
+
         /// <summary> It is recommended not to modify these at hand. Instead, see <see cref="InputAttribute"/> and <see cref="OutputAttribute"/> </summary>
         private Dictionary<string, NodePort> portsByField;
         private Dictionary<string, NodePort[]> arrayPortsByField;
@@ -88,8 +92,8 @@ namespace PuppyDragon.uNody
         }
 
         public IEnumerable<NodePort> Ports => PortsByField.Values;
-        public IEnumerable<NodePort> Inputs => PortsByField.Values.Where(x => x.Direction == NodePort.IO.Input);
-        public IEnumerable<NodePort> Outputs => PortsByField.Values.Where(x => x.Direction == NodePort.IO.Output);
+        public IReadOnlyList<NodePort> Inputs => inputs;
+        public IReadOnlyList<NodePort> Outputs => outputs;
 
         public bool HasArrayPort => ArrayPortsByField.Count > 0;
 
@@ -126,6 +130,17 @@ namespace PuppyDragon.uNody
             NodeDataCache.FillPorts(this, portsByField, arrayPortsByField);
 
             VerifyConnections();
+
+            inputs.Clear();
+            outputs.Clear();
+
+            foreach (var port in PortsByField.Values)
+            {
+                if (port.Direction == NodePort.IO.Input)
+                    inputs.Add(port);
+                else
+                    outputs.Add(port);
+            }
         }
 
         /// <summary> Returns port which matches fieldName </summary>
